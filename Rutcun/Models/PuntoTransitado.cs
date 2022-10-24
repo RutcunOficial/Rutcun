@@ -5,6 +5,7 @@ namespace Rutcun.Models
 {
     public class PuntoTransitado
     {
+        //rutcun
         [Key]
         public int FkPunto { get; set; }
         [Key]
