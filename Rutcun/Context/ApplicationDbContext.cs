@@ -6,6 +6,7 @@ namespace _24AMPag.Context
 {
     public class ApplicationDbContext : DbContext
     {
+        //hola
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CalleTransitada>()
