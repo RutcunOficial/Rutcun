@@ -23,5 +23,8 @@ namespace _24AMPag.Context
         public DbSet<PuntoInteres> PuntoInteres { get; set; }
         public DbSet<PuntoTransitado> PuntoTransitado { get; set; }
         public DbSet<TipoTrasporte> TipoTrasporte { get; set; }
+        public DbSet<Rol> rols { get; set; }
+        public DbSet<Usuario> usuario { get; set; }
+
     }
 }

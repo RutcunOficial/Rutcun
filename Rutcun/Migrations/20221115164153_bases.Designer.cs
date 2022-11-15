@@ -10,8 +10,8 @@ using _24AMPag.Context;
 namespace Rutcun.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221024224549_rutcun")]
-    partial class rutcun
+    [Migration("20221115164153_bases")]
+    partial class bases
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,21 @@ namespace Rutcun.Migrations
                     b.ToTable("PuntoTransitado");
                 });
 
+            modelBuilder.Entity("Rutcun.Models.Rol", b =>
+                {
+                    b.Property<int>("PkRol")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PkRol");
+
+                    b.ToTable("rols");
+                });
+
             modelBuilder.Entity("Rutcun.Models.TipoTrasporte", b =>
                 {
                     b.Property<int>("PkTipo")
@@ -131,6 +146,32 @@ namespace Rutcun.Migrations
                     b.ToTable("Trasporte");
                 });
 
+            modelBuilder.Entity("Rutcun.Models.Usuario", b =>
+                {
+                    b.Property<int>("PkUser")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Contraseña")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FkRol")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PkUser");
+
+                    b.HasIndex("FkRol");
+
+                    b.ToTable("usuario");
+                });
+
             modelBuilder.Entity("Rutcun.Models.CalleTransitada", b =>
                 {
                     b.HasOne("Rutcun.Models.Calle", "Calle")
@@ -176,6 +217,15 @@ namespace Rutcun.Migrations
                         .HasForeignKey("FkTipo");
 
                     b.Navigation("Tipo");
+                });
+
+            modelBuilder.Entity("Rutcun.Models.Usuario", b =>
+                {
+                    b.HasOne("Rutcun.Models.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("FkRol");
+
+                    b.Navigation("Rol");
                 });
 #pragma warning restore 612, 618
         }

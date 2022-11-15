@@ -2,7 +2,7 @@
 
 namespace Rutcun.Migrations
 {
-    public partial class rutcun : Migration
+    public partial class bases : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,6 +34,19 @@ namespace Rutcun.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "rols",
+                columns: table => new
+                {
+                    PkRol = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rols", x => x.PkRol);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TipoTrasporte",
                 columns: table => new
                 {
@@ -44,6 +57,28 @@ namespace Rutcun.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TipoTrasporte", x => x.PkTipo);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "usuario",
+                columns: table => new
+                {
+                    PkUser = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    User = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FkRol = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_usuario", x => x.PkUser);
+                    table.ForeignKey(
+                        name: "FK_usuario_rols_FkRol",
+                        column: x => x.FkRol,
+                        principalTable: "rols",
+                        principalColumn: "PkRol",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,6 +167,11 @@ namespace Rutcun.Migrations
                 name: "IX_Trasporte_FkTipo",
                 table: "Trasporte",
                 column: "FkTipo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_usuario_FkRol",
+                table: "usuario",
+                column: "FkRol");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -143,6 +183,9 @@ namespace Rutcun.Migrations
                 name: "PuntoTransitado");
 
             migrationBuilder.DropTable(
+                name: "usuario");
+
+            migrationBuilder.DropTable(
                 name: "Calle");
 
             migrationBuilder.DropTable(
@@ -150,6 +193,9 @@ namespace Rutcun.Migrations
 
             migrationBuilder.DropTable(
                 name: "Trasporte");
+
+            migrationBuilder.DropTable(
+                name: "rols");
 
             migrationBuilder.DropTable(
                 name: "TipoTrasporte");
